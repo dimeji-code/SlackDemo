@@ -61,7 +61,8 @@ export default SideBar
 const SideBarContainer = styled.div`
     overflow-y: scroll;
     margin-top:70px;
-    max-width: 385px;
+    /* max-width: 385px; */
+    max-width: 30vw;
     min-width:240px;
     /* flex:0.3; */
     border:0.2;

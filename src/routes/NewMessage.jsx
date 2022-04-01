@@ -42,6 +42,8 @@ export default NewMessage
 const MessageContainer = styled.div`
     height: 100%;
     flex:1;
+    max-width: 100%;
+
 `
 const RightBlue = styled.div`
     display: flex;

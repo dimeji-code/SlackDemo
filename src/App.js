@@ -85,7 +85,7 @@ const MiddleGrid = styled.div`
 /* position: relative; */
   /* align-items: flex-end; */
   height:100%;
-  min-width:10vw;
+  min-width:40vw;
   max-width: 90vw;
   /* flex:0.7; */
   background-color:#F8F8F8;
