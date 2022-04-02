@@ -27,27 +27,16 @@ function App() {
             gutterSize={1}
             gutterAlign="center"
             // snapOffset={10}
-            dragInterval={4}
+            // dragInterval={4}
             direction="horizontal"
             cursor="col-resize">
-            <Split style={{flexDirection: "row", display:"flex", minWidth:"30vw"}}  
-            minSize={'60vh'}
-            expandToMin={false}
-            gutterSize={1}
-            gutterAlign="center"
-            dragInterval={4}
-            direction="horizontal"
-            cursor="col-resize">
-              <Left>
-                <SideBar company="RandomCompany Inc." user="Dimeji S." />
-              </Left>
+
               <MiddleGrid>
                 <Routes>
                   <Route path="/" element={<Threads/>}  />
                   {/* <Route path="/" element={<NewMessage/>}  /> */}
                 </Routes>
               </MiddleGrid>
-            </Split>
             <ProfileGrid >
               <Profile user="Dimeji Situ" email="dimeji.situ@gmail.com"/>
             </ProfileGrid>
@@ -63,11 +52,11 @@ function App() {
 export default App;
 const Page= styled.div`
   display: flex;
-  /* overflow-y: scroll; */
+  
+  overflow-y: scroll;
 
 `
 const AppBody = styled.div`
-/* position: relative; */
   border: 2px solid black;
   height:100vh;
   width:100vw;
@@ -76,14 +65,9 @@ const AppBody = styled.div`
   align-items: space-evenly;
   /* flex-direction: row; */
 `
-const Left = styled.div`
-/* display: flex ;
-flex:1; */
-  /* flex:0.3; */
-`
+
 const MiddleGrid = styled.div`
-/* position: relative; */
-  /* align-items: flex-end; */
+
   height:100%;
   min-width:40vw;
   max-width: 90vw;
@@ -98,8 +82,6 @@ const ProfileGrid = styled.div`
   height:100%;
   min-width:30vw;
   max-width:60vw;
-  /* flex:0.3; */
-  /* justify-content: flex-end; */
   background-color:white;
   border: 1px solid var(--slack-border-white);
 `

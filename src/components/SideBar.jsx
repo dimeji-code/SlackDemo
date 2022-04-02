@@ -15,6 +15,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddIcon from '@mui/icons-material/Add';
 import DropDown from "./DropDown"
 const SideBar = (props) =>{
+
+    var currentPage = props.current
     return(
 
             <SideBarContainer>
@@ -31,15 +33,15 @@ const SideBar = (props) =>{
                     </SideBarEdit>
                 </SideBarHeader>
                 <SideBarOptions>
-                    <SideBarItem>
+                    <SideBarItem style={{ backgroundColor : (currentPage == "threads" ? "#2b274bac":"transparent")}}>
                         <MessageIcon/>
                         <Typography>Threads</Typography>
                     </SideBarItem>
-                    <SideBarItem>
+                    <SideBarItem style={{ backgroundColor : (currentPage == "mentions" ? "#2b274bac":"transparent")}}>
                         <AlternateEmailIcon/>
                         <Typography>Mentions & Reactions</Typography>
                     </SideBarItem>
-                    <SideBarItem>
+                    <SideBarItem style={{ backgroundColor : (currentPage == "connect" ? "#2b274bac":"transparent")}}>
                         <ForumIcon/>
                         <Typography>Slack Connect</Typography>
                     </SideBarItem>
@@ -60,13 +62,14 @@ export default SideBar
 
 const SideBarContainer = styled.div`
     overflow-y: scroll;
-    margin-top:70px;
-    /* max-width: 385px; */
+    margin-top:69px;
+    max-width: 385px;
     /* max-width: 40vw; */
     min-width:240px;
     /* flex:0.3; */
     border:0.2;
     border-top: 1px solid #49274b;
+    border-top: 1px solid #2b274b78;
     /* flex-direction:"row"; */
     justify-content:space-between;
     background-color: var(--slack-color);

@@ -1,29 +1,45 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import MessageIcon  from "@mui/icons-material/Message";
+import SideBar from "../components/SideBar"
+import Split from 'react-split'
 
 const Threads = () => {
     const [isEmpty, setIsEmpty] = useState(true)
   return (
-      <ThreadContainer>
-          <ThreadHeader>
-          <h2>Threads</h2>
-          <MessageIcon />
+    <ThreadContainer>
+        <Split style={{flex:1,flexDirection: "row", display:"flex", width:"100vw" }} sizes={[30,60]}
+            minSize={'80vw'}
+            expandToMin={false}
+            gutterSize={2}
+            gutterAlign="center"
+            // snapOffset={10}
+            dragInterval={4}
+            direction="horizontal"
+            cursor="col-resize">
+        {/* <Left> */}
+            <SideBar company="RandomCompany Inc." user="Dimeji S." current="threads" />
+        {/* </Left> */}
+        <ContentBody>
+            <ThreadHeader>
+            <h2>Threads</h2>
+            <MessageIcon />
 
-          </ThreadHeader>
-          { isEmpty &&
-                // <SubHeader></SubHeader>
-                <EmptyDiv>
-                    <div>
-                        <MessageIcon />
-                    </div>
-                    <h3>No Threads Available</h3>
-                    <h5>To start a thread, create a conversation and add it to the thread.</h5>
-                    <button>Learn more about threads</button>
-                </EmptyDiv>
-          }
-          {/* <SubHeader></SubHeader> */}
-          <TextArea></TextArea>
+            </ThreadHeader>
+            { isEmpty &&
+                    // <SubHeader></SubHeader>
+                    <EmptyDiv>
+                        <div>
+                            <MessageIcon />
+                        </div>
+                        <h3>No Threads Available</h3>
+                        <h5>To start a thread, create a conversation and add it to the thread.</h5>
+                        <button>Learn more about threads</button>
+                    </EmptyDiv>
+            }
+        </ContentBody>
+        </Split>
+          {/* <TextArea></TextArea> */}
     </ThreadContainer>
   )
 }
@@ -31,11 +47,22 @@ const Threads = () => {
 export default Threads
 const ThreadContainer = styled.div`
     height: 100%;
+    display: flex;
+    flex:1;
+    flex-direction: row;
+`
+const Left = styled.div`
+    display: flex;
+    /* flex:1; */
+    /* flex-direction: column; */
+`
+const ContentBody = styled.div`
+    height: 100%;
     //////
     /* flex-wrap: wrap; */
-    /* display: flex; */
+    display: flex;
     flex:1;
-    /* flex-direction: column; */
+    flex-direction: column;
 `
 
 const ThreadHeader= styled.div`
