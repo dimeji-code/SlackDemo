@@ -22,29 +22,29 @@ function App() {
         <Header />
         <AppBody>
           <Split  style={{flex:1,flexDirection: "row", display:"flex", width:"100vw" }} sizes={[70,30]}
-            minSize={[60,20]}
+            minSize={'50vh'}
             expandToMin={false}
-            gutterSize={3}
+            gutterSize={1}
             gutterAlign="center"
             // snapOffset={10}
             dragInterval={4}
             direction="horizontal"
             cursor="col-resize">
-            <Split style={{flexDirection: "row", display:"flex", minWidth:"30vw"}} 
-            minSize={'70vh'}
+            <Split style={{flexDirection: "row", display:"flex", minWidth:"30vw"}}  
+            minSize={'60vh'}
             expandToMin={false}
-            gutterSize={3}
+            gutterSize={1}
             gutterAlign="center"
             dragInterval={4}
             direction="horizontal"
             cursor="col-resize">
               <Left>
-                <SideBar company="Ukemey Inc." user="Dimeji Situ" />
+                <SideBar company="RandomCompany Inc." user="Dimeji S." />
               </Left>
               <MiddleGrid>
                 <Routes>
-                  {/* <Route path="/" element={<Threads/>}  /> */}
-                  <Route path="/" element={<NewMessage/>}  />
+                  <Route path="/" element={<Threads/>}  />
+                  {/* <Route path="/" element={<NewMessage/>}  /> */}
                 </Routes>
               </MiddleGrid>
             </Split>
@@ -70,7 +70,7 @@ const AppBody = styled.div`
 /* position: relative; */
   border: 2px solid black;
   height:100vh;
-  /* width:100vh; */
+  width:100vw;
   flex:1;
   display: flex;
   align-items: space-evenly;
@@ -97,7 +97,7 @@ const ProfileGrid = styled.div`
 
   height:100%;
   min-width:30vw;
-  max-width:70vw;
+  max-width:60vw;
   /* flex:0.3; */
   /* justify-content: flex-end; */
   background-color:white;

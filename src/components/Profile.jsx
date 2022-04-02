@@ -84,10 +84,10 @@ const Profile = (props) => {
 export default Profile
 const ProfileContainer = styled.div`
 border-top: 1px solid #49274b;
-max-width: 70vw;
+max-width: 60vw;
 min-width: 20vw;
-display: flex;
-flex-direction:column;
+/* display: flex;
+flex-direction:column; */
 height: 100%;
     >div{
         padding-left: 20px;
