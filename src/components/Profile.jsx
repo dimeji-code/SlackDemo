@@ -1,18 +1,22 @@
 import React,{useState, useEffect} from 'react'
 import styled from "styled-components"
-import {Typography,Button, Avatar,} from '@mui/material'
+import {Button, Avatar,} from '@mui/material'
 import CloseIcon  from "@mui/icons-material/Close";
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import {useDispatch, useSelector} from "react-redux"
+import {openProfile,selectProfileOpen } from "../features/appSlice"
 
 const Profile = (props) => {
+    const prof = useSelector(selectProfileOpen)
+    const dispatch = useDispatch();
+
     const [time, setTime] = useState(`loading..`)
     var date 
     var minutes 
     var hour 
     var second 
-
     var unit = "AM"
 
     setInterval(() => {
@@ -20,7 +24,7 @@ const Profile = (props) => {
         minutes = date.getMinutes();
         hour = date.getHours();
         second = date.getSeconds();
-        console.log("date:", second);
+        // console.log("date:", second);
         if (hour>12 && hour != 0){
            hour-=12
            unit ="PM"
@@ -32,11 +36,19 @@ const Profile = (props) => {
         },1000)
 
   return (
-    <ProfileContainer>
+    <ProfileContainer style={{width:'100%'}}>
         <ProfileHeader>
         
             <h2>Profile</h2>
-            <CloseIcon/>
+            <div onClick={()=> {
+                console.log("TRYING TO CLOSE");
+                dispatch(openProfile({
+                    profileOpen : false
+                }));
+                }}>
+            <CloseIcon />
+
+            </div>
         </ProfileHeader>
         <ProfileBody>
             <ProfilePicture>
@@ -86,9 +98,9 @@ const ProfileContainer = styled.div`
 border-top: 1px solid #49274b;
 max-width: 60vw;
 min-width: 20vw;
-/* display: flex;
-flex-direction:column; */
 height: 100%;
+display: flex;
+flex-direction: column;
     >div{
         padding-left: 20px;
         padding-top:8px;
@@ -112,15 +124,14 @@ height: 100%;
     }
 `
 const ProfileHeader = styled.div`
-    margin-top:70px;
-    height: 40px;
-    padding:20px;
+    margin-top:59px;
+    min-height:30px;
+    padding:12px;
     
     border-bottom: 1px solid var(--slack-border-white);
     display:flex;
     align-items:center;
     justify-content: space-between;
-    /* background-color:green; */
     > h2{
         font-weight: 700;
         font-size:20px;

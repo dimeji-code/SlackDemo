@@ -3,37 +3,42 @@ import styled from 'styled-components'
 import MessageIcon  from "@mui/icons-material/Message";
 import SideBar from "../components/SideBar"
 import Split from 'react-split'
+import Threads from "./Threads" //move to components
+import Mentions from "./Mentions" //move to components
+import Connect from "./Connect" //move to components
+import NewMessage from "./NewMessage" //move to components
+const MainPage = (props) => {
+    // const [pageWidth, setPageWidth] = useState(`loading..`)
 
-const Threads = () => {
-    const [isEmpty, setIsEmpty] = useState(true)
-  return (
-    <ThreadContainer>
-
+    return (
+    <ThreadContainer >
+        <Split style={{flex:1,flexDirection: "row", display:"flex", width:"100vw" }} sizes={[30,60]}
+            minSize={'80vw'}
+            expandToMin={false}
+            gutterSize={2}
+            gutterAlign="center"
+            dragInterval={4}
+            direction="horizontal"
+            cursor="col-resize">
+        <SideBar company="Company Inc." user="First Last" current={props.current} />
         <ContentBody>
-            <ThreadHeader>
-                <h2>Threads</h2>
-            </ThreadHeader>
-            { isEmpty &&
-                    <EmptyDiv>
-                        <div>
-                            <MessageIcon />
-                        </div>
-                        <h3>No Threads Available</h3>
-                        <h5>To start a thread, create a conversation and add it to the thread.</h5>
-                        <button>Learn more about threads</button>
-                    </EmptyDiv>
-            }
+        {props.current == "threads" &&  <Threads/>}
+        {props.current == "mentions" &&  <Mentions/>}
+        {props.current == "connect" &&  <Connect/>}
+        {props.current == "newmessage" &&  <NewMessage/>}
+           
         </ContentBody>
+        </Split>
     </ThreadContainer>
   )
 }
 
-export default Threads
+export default MainPage
 const ThreadContainer = styled.div`
     height: 100%;
     display: flex;
     flex:1;
-    flex-direction: column;
+    flex-direction: row;
 `
 
 const ContentBody = styled.div`
@@ -41,14 +46,17 @@ const ContentBody = styled.div`
     display: flex;
     flex:1;
     flex-direction: column;
+    margin-top: 59px;
+    /* min-height:30px; */
 `
 
 const ThreadHeader= styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
+    margin-top: 59px;
     min-height:30px;
-    padding:12px;
+    padding:8px;
     border-bottom: 1px solid var(--slack-border-white);
 
   box-shadow: 0 3.8px 6.2px rgba(0, 0, 0, 0.2),

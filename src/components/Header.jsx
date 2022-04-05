@@ -3,8 +3,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import styled from 'styled-components'
+import {useDispatch, useSelector} from "react-redux"
+import {openProfile,openHelp,selectHelpOpen,selectProfileOpen} from "../features/appSlice"
 
 const Header = (props) =>{
+    const dispatch = useDispatch();
+    const profile = useSelector(selectProfileOpen)
+    const help = useSelector(selectHelpOpen)
+
     return(
         <HeaderContainer>
             <HeaderLeft>
@@ -19,10 +25,22 @@ const Header = (props) =>{
             </HeaderSearch>
 
             <HeaderRight>
-                <Help>
+                <Help  onClick={() =>{
+                     dispatch(openProfile({
+                        profileOpen : false
+                     }));
+                     dispatch(openHelp({helpOpen : !help}))
+
+                     }}>
                  <HelpOutlineIcon/>
                 </Help>
-                <HeaderAvatar>
+                <HeaderAvatar onClick={() =>{
+                     dispatch(openHelp({helpOpen : false}))
+                     dispatch(openProfile({
+                        profileOpen : !profile
+                     }));
+                     console.log("profile open:", profile);
+                     }}>
                     <img src="./user.png" />
                 </HeaderAvatar>
             </HeaderRight>
@@ -39,7 +57,7 @@ const HeaderContainer = styled.div`
   background-color: var(--slack-color);
   height: 50px;
   width: 100%;
-  padding:10px 0;
+  padding:5px 0;
   align-items: center;
   justify-content:space-between;
   display: flex;
@@ -52,6 +70,7 @@ const HeaderLeft = styled.div`
     flex: 0.24;
     align-items: center;
     margin-left: 20px;
+    justify-content:flex-end;
 
     > .MuiSvgIcon-root{
         margin-left: auto;
@@ -60,7 +79,7 @@ const HeaderLeft = styled.div`
 
 `;
 const Time = styled.div`
-    justify-content:flex-end;
+    display: flex;
     :hover{
         cursor:pointer;
         opacity:0.8;
@@ -121,4 +140,5 @@ const HeaderRight = styled.div`
      > .MuiSvgIcon-root{
          padding:5px
      }
+
 `;

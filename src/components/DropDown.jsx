@@ -56,7 +56,10 @@ const DropDown = (props) =>{
 export default DropDown
 
 const DropDownOption = styled.div`
-    padding: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
 
 `
 const DropDownTitleGrid = styled.div` 
@@ -66,7 +69,8 @@ const DropDownTitleGrid = styled.div`
     flex-direction: row;
     > div{
         flex:0.7;
-    }
+        min-width:150px;
+        }
     .hide{
         visibility: hidden;
         }
@@ -115,6 +119,8 @@ const SubItem = styled.div`
     margin-left: 15px;
     color:#CFC3CF;
     display: flex;
+    min-width:150px;
+
     > .MuiSvgIcon-root{
         font-size: 20px;
         color: #CFC3CF;
