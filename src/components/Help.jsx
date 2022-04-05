@@ -2,13 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import CloseIcon  from "@mui/icons-material/Close";
 import SearchIcon  from "@mui/icons-material/Search";
+import {useDispatch} from "react-redux"
+import {openHelp} from "../features/appSlice"
 
-const Help =(props) => {
+const Help = (props) => {
+    const dispatch = useDispatch();
+
   return (
     <HelpContainer>
         <HelpHeader>
             <h2>Help</h2>
-            <CloseIcon/>
+            <CloseIcon onClick={()=>{
+                dispatch(openHelp({helpOpen : false}))   
+            }}/>
         </HelpHeader>
         <HelpBody>
             <h6>Find answers quickly</h6>
@@ -27,16 +33,19 @@ const Help =(props) => {
 export default Help
 
 const HelpContainer = styled.div`
-    
+    border-top: 1px solid #49274b;
+max-width: 60vw;
+min-width: 20vw;
+height: 100%;
 `
 
 const HelpHeader = styled.div`
- margin-top:70px;
-    height: 40px;
+ margin-top:59px;
+ min-height:30px;
     border-bottom: 1px solid var(--slack-border-white);
     display:flex;
     align-items:center;
-    padding:15px;
+    padding:12px;
     justify-content: space-between;
     > h2{
         font-weight: 700;
