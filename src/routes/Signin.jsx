@@ -36,7 +36,7 @@ return (
                     console.log("Logged in ->",loginState)
                     }}>Create  Account</SignupButton></Link>
             </EnterInfo>
-            }
+            } 
            
 
         </Body>
