@@ -4,9 +4,10 @@ import {Button, Avatar,} from '@mui/material'
 import CloseIcon  from "@mui/icons-material/Close";
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
 import {useDispatch, useSelector} from "react-redux"
-import {openProfile,selectProfileOpen } from "../features/appSlice"
+import {openProfile,selectProfileOpen,login } from "../features/appSlice"
+import {Link} from "react-router-dom";
 
 const Profile = (props) => {
     const prof = useSelector(selectProfileOpen)
@@ -46,8 +47,7 @@ const Profile = (props) => {
                     profileOpen : false
                 }));
                 }}>
-            <CloseIcon />
-
+                <CloseIcon />
             </div>
         </ProfileHeader>
         <ProfileBody>
@@ -60,22 +60,23 @@ const Profile = (props) => {
             <Button variant="text">Add a title</Button>
             <ProfileButtons>
                 <ButtonContainer>
-                <SentimentSatisfiedOutlinedIcon/>
-                <h4>Set Status</h4>
+                    <SentimentSatisfiedOutlinedIcon/>
+                    <h4>Set Status</h4>
                 </ButtonContainer>
                 <ButtonContainer>
-                <EditOutlinedIcon/>
-                <h4>Edit Profile</h4>
-
+                    <EditOutlinedIcon/>
+                    <h4>Edit Profile</h4>
                 </ButtonContainer>
-                <ButtonContainer>
-                <MoreHorizOutlinedIcon />
-                <h4>More</h4>
-
+                <Link to="/" style={{ textDecoration: "none"}}>
+                <ButtonContainer onClick={()=>{dispatch(login({
+                    loggedIn: false
+                }))}}>
+                    <LogoutIcon />
+                    <h4>Signout</h4>
                 </ButtonContainer>
+                </Link>
             </ProfileButtons>
  
-
         </ProfileBody>
         <div>
                 <h5>Display Name</h5>
@@ -205,4 +206,24 @@ const ProfileButtons =styled.div`
         }
     }
 `
-const ButtonContainer = styled.div``
+const ButtonContainer = styled.div`
+        margin: 10px;
+        text-align: center;
+    
+    >  h4{
+        color: grey;
+        font-weight: 400;
+        font-size: 14px;
+
+    }
+>  .MuiSvgIcon-root{
+        color: black;
+        background-color: #e4dede84;
+        padding:8px;
+        font-size: 24px;
+        border-radius: 998px;
+        :hover{
+            opacity:0.8;
+            cursor:pointer;
+        }
+    }`
