@@ -1,14 +1,22 @@
 import React,{useState, useEffect} from 'react'
 import styled from 'styled-components'
-import {activateModal} from "../features/appSlice"
-import {useDispatch} from "react-redux"
+import {activateModal, selectCurrentUser} from "../features/appSlice"
+import {useDispatch,useSelector} from "react-redux"
 import {  updateProfile } from "firebase/auth";
+import { getDatabase,push,child,ref } from "firebase/database";
+
 import auth from "../firebase"
 const Modal = (props)=> {
     const [name, setName] = useState("")
+    const userState = useSelector(selectCurrentUser)
 
     const updateUser = () => {
         if (name!= ""){
+
+            const db = getDatabase();
+            const newPostKey = push(child(ref(db), 'users')).key;
+
+
             updateProfile(auth.currentUser, {
             displayName: name, photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
@@ -18,6 +26,7 @@ const Modal = (props)=> {
             // An error occurred
             // ...
             });
+
         }
 }
 

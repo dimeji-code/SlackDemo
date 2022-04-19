@@ -27,7 +27,7 @@ const MainPage = (props) => {
             dragInterval={4}
             direction="horizontal"
             cursor="col-resize">
-        <SideBar company="Company Inc." user={userState.email} current={props.current} />
+        <SideBar company="Company Inc." user={userState.displayName} current={props.current} />
         <ContentBody>
         {props.current === "threads" &&  <Threads/>}
         {props.current === "mentions" &&  <Mentions/>}

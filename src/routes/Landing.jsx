@@ -9,7 +9,7 @@ import {  createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fir
 import { useNavigate } from "react-router-dom";
 import auth from "../firebase"
 import {getDatabase, ref, set} from "firebase/database"
-
+import Modal from "../components/Modal"
 function Landing() {
 
     const [switchMode, setSwitchMode] = useState(false);
@@ -17,6 +17,8 @@ function Landing() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+    const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
     
@@ -26,13 +28,14 @@ function Landing() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        user.displayName = name;
         console.log("USER IS ",user)
         // navigate("/", { replace: true })
         dispatch(setCurrentUser({currentUser: user}))
         const db = getDatabase();
 
         set(ref(db, 'users/' + user.uid), {
-          // username: name,
+          name: name,
           email: email,
           // profile_picture : imageUrl
         });
@@ -55,9 +58,11 @@ function Landing() {
         const user = userCredential.user;
         console.log("USER IS ",user.email)
         dispatch(setCurrentUser({currentUser: user}))
+        // awaitModal()
 
         // navigate("/", { replace: true })
       }).then(()=>{ 
+        console.log("aii");
           dispatch(login({ loggedIn: true }));
       })
       .catch((error) => {
@@ -66,7 +71,10 @@ function Landing() {
       });
     }
     //////////////////////////////////////
+    // const awaitModal = () =>{
+    //   setShowModal(true)
 
+    // }
 return (
   <div>
   {!switchMode && 
@@ -97,6 +105,9 @@ return (
   }
   {switchMode && 
       <Page>
+        {/* { showModal &&
+        <Modal/>
+        } */}
       <Body style={{backgroundColor: 'var(--slack-color)'}}>
           <ImgContainer3>
             <img src="./slackLogo.png"/>
@@ -105,7 +116,8 @@ return (
           <EnterInfo>
               <h3>Signin / Signup</h3>
               <input required placeholder="Email" onChange={(text)=>setEmail(text.target.value)} value={email}  /><br/>
-              <input type="password" required placeholder="Password" onChange={(text)=>setPassword(text.target.value)} value={password} /><br/>
+              <input  type="password" required placeholder="Password" onChange={(text)=>setPassword(text.target.value)} value={password} /><br/>
+              <input type="text"  placeholder="(Name) Signup Only" onChange={(text)=>setName(text.target.value)} value={name} /><br/>
               <p>{email}</p>
               <p>{password}</p>
                   <SigninButton 
@@ -114,7 +126,9 @@ return (
                   }}>Sign in to Slack-demo</SigninButton>
                   <SignupButton 
                   onClick={()=>{
+                    if (name!=""){
                     createUser();
+                    }
                   }}>Create  Account</SignupButton>
           </EnterInfo>
           } 

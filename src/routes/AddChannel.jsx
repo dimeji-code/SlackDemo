@@ -24,8 +24,8 @@ function AddChannel(props) {
             for (var i in data){
                 if(i == someUid){
                      console.log("user list index:", i)
-                console.log("user", data[i].email)
-                theUser = data[i].email
+                console.log("user", data[i].name)
+                theUser = data[i].name
                 break;
                 }
                 
