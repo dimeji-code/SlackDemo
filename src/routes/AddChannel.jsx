@@ -1,4 +1,4 @@
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect,useRef} from 'react';
 import styled from "styled-components"
 import {getDatabase, ref, onValue, update, set, push,child} from "firebase/database"
 import {selectCurrentUser} from "../features/appSlice"
@@ -14,26 +14,48 @@ function AddChannel(props) {
     var all = []
     const [text, setText] = useState("")
 
-    const getChannelData = () =>{ //use this to get posts
+    const getUsers = (someUid) =>{ //use this to get message sender (name soon)
+        const db = getDatabase()
+        const postsData = ref(db, 'users/');
+        var theUser =""
+        onValue(postsData, (snapshot)=>{
+            const data = snapshot.val();
+ 
+            for (var i in data){
+                if(i == someUid){
+                     console.log("user list index:", i)
+                console.log("user", data[i].email)
+                theUser = data[i].email
+                break;
+                }
+                
+
+            }
+           
+
+        })
+        return theUser
+    }
+    getUsers()
+
+    const getPostData = () =>{ //use this to get posts
         const db = getDatabase()
         const postsData = ref(db, 'posts/');
 
         onValue(postsData, (snapshot)=>{
             const data = snapshot.val();
-            // console.log("data variable Key->",Object.keys(data) )
-            // console.log("selectedcHAN Key->",selectedChan )
-            
+ 
             for (var i in data){
                 if(data[i].roomId == selectedChan.channelId)
                 all.push(data[i])
-                // console.log("channel Key->",dat )
             }
-
         })
-        console.log("all posts->",all )
-
+        // console.log("all posts in this channel->",all )
     }
-  getChannelData()
+
+    // useEffect(() =>{
+        getPostData()
+    // },[])
 
     const handleAdd = () =>{
         var date = new Date();
@@ -45,8 +67,8 @@ function AddChannel(props) {
 
     function writeNewPost(today, newMessage, userEntry) {
 
-        console.log(userEntry)
-        console.log("date is:u,", today.toString())
+        // console.log(userEntry)
+        // console.log("date is:u,", today.toString())
         const db = getDatabase();
         const postListRef = ref(db, 'posts');
         const newPostRef = push(postListRef);
@@ -57,29 +79,43 @@ function AddChannel(props) {
             date:today.toString(),
             user:userEntry.uid
         });
-
-        // console.log("no\no\nno:");
         setText("")
+        // getChannelData()
 
-      }
+    }
+
+    const convertDate = (dateString) =>{
+    const today = new Date(dateString);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var todaysDate = `${months[today.getMonth()] + " "+today.getDate() + ", " + today.getFullYear()}`
+    return todaysDate
+    }
+
+    const convertTime = (dateString) => {
+    const today = new Date(dateString);
+    return today.toLocaleTimeString('en-US',{hour: '2-digit', minute:'2-digit'})
+    }
+
 
     const Item = (message) =>{
-        console.log("messages are:",message);
-
+        // console.log("messages are:",message);
+        var messageDate = convertDate(message.date)
+        var messageTime = convertTime(message.date)
+        var messageName = getUsers(message.name)
+        
         return(
             <ChannelItem>
                 <TimeHeader>
-                    <div>{message.date}</div>
+                    <div>{messageDate}</div>
                 </TimeHeader>
                 <Body>
                     <UserImage>
                     <img src="./user.png"/>
                     </UserImage>
                     <Content>
-
                         <ChannelItemHeader>
-                            <h4>{message.name}</h4>
-                            <h5>7:25 PM</h5>
+                            <h4>{messageName}</h4>
+                            <h5>{messageTime}</h5>
                         </ChannelItemHeader>
                         <p>{message.message}</p>
                         
@@ -94,7 +130,8 @@ function AddChannel(props) {
     <ThreadContainer>
         <ContentBody>
             <AddHeader>
-                <h2>{selectedChan.name}{selectedChan.channelId}</h2>
+            <h2>{selectedChan.name}</h2>
+            {/* <h2>{selectedChan.name}{selectedChan.channelId}</h2> */}
                 <button>
                     Testing
                 </button>
@@ -103,9 +140,6 @@ function AddChannel(props) {
                 {all.map((data,index) => ( 
                 <Item key={index} message={data.post} name={data.user} date={data.date} />
                 ))}
-                
-                
-
             </Middle>
             <Bottom>
                 <label for="w3review">Add to Channel:</label>

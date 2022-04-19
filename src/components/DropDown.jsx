@@ -77,7 +77,7 @@ const DropDown = (props) =>{
 
                 </DropDownTitleGrid>s
             </DropDownItem>
-            { drop &&
+            { drop && (props.add == "Add channels")&&
                 listItems.map(item => (
                 <SubItem onClick={()=> navigate('/addChannel', { state: { selectedChan : item } })}>
                     <TagOutlinedIcon/>
