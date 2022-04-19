@@ -6,11 +6,11 @@ import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfi
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useDispatch, useSelector} from "react-redux"
-import {openProfile,selectProfileOpen,login } from "../features/appSlice"
+import {openProfile,selectProfileOpen,login,selectCurrentUser, activateModal } from "../features/appSlice"
 import {Link} from "react-router-dom";
-
 const Profile = (props) => {
     const prof = useSelector(selectProfileOpen)
+    const userState = useSelector(selectCurrentUser)
     const dispatch = useDispatch();
 
     const [time, setTime] = useState(`loading..`)
@@ -59,11 +59,11 @@ const Profile = (props) => {
             <h3>{props.user}</h3>
             <Button variant="text">Add a title</Button>
             <ProfileButtons>
-                <ButtonContainer>
+                <ButtonContainer >
                     <SentimentSatisfiedOutlinedIcon/>
                     <h4>Set Status</h4>
                 </ButtonContainer>
-                <ButtonContainer>
+                <ButtonContainer onClick={()=>{dispatch(activateModal({modalOpen:true}))}}>
                     <EditOutlinedIcon/>
                     <h4>Edit Profile</h4>
                 </ButtonContainer>
@@ -80,13 +80,13 @@ const Profile = (props) => {
         </ProfileBody>
         <div>
                 <h5>Display Name</h5>
-                <h6>{props.user}</h6>
+                <h6>{userState.displayName}</h6>
                 <h5>Local Time</h5>
                 {/* <h6>{hour}:{minutes}:{second}{unit}</h6> */}
                 <h6>{time}</h6>
                 <h5>Email Address</h5>
                 <h6>
-                    <button>{props.email}</button>
+                    <button>{userState.email}</button>
                 </h6>
 
         </div>

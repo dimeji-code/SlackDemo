@@ -9,6 +9,7 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyDqU7gxluNTvTBaj6IhHjumsVciC-GVXeA",
   authDomain: "slackdemo-fb.firebaseapp.com",
+  databaseURL: "https://slackdemo-fb-default-rtdb.firebaseio.com",
   projectId: "slackdemo-fb",
   storageBucket: "slackdemo-fb.appspot.com",
   messagingSenderId: "416342280115",

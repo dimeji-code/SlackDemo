@@ -1,8 +1,4 @@
 import React from "react"
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SearchIcon from '@mui/icons-material/Search';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import styled from "styled-components"
 import { Typography  } from "@mui/material";
 import FiberManualRecordIcon  from "@mui/icons-material/FiberManualRecord";
@@ -11,14 +7,11 @@ import MessageIcon  from "@mui/icons-material/Message";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import ForumIcon from '@mui/icons-material/Forum';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import AddIcon from '@mui/icons-material/Add';
 import DropDown from "./DropDown"
+import {selectCurrentUser,currentUser } from "../features/appSlice"
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
-    BrowserRouter ,
-    Routes,
-    Route,
     Link
   } from "react-router-dom";
 
@@ -61,10 +54,12 @@ const SideBar = (props) =>{
                         <Typography>Slack Connect</Typography>
                     </SideBarItem>
                     </Link>
-                    <SideBarItem>
+                    <Link key={3} style={{ textDecoration: 'none',color:"black"}} to={'/'}> {/* temporary testing */}
+                    <SideBarItem style={{ backgroundColor : (currentPage == "threadss" ? "#2b274bac":"transparent")}}>
                         <MoreVertIcon/>
                         <Typography>More</Typography>
                     </SideBarItem>
+                    </Link>
                     <DropDown title="Channels" add="Add channels"/>
                     <DropDown title="Direct messages" add="Add teammates"/>
                     <DropDown title="Apps" add="Add apps"/>

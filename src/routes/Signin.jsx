@@ -1,19 +1,69 @@
-import React ,{useState} from 'react';
+import React ,{useState, useEffect} from 'react';
 import styled from "styled-components"
 
 import { useSelector, useDispatch } from 'react-redux';
 import {selectLoginState,login } from "../features/appSlice"
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {getDatabase, ref, set} from "firebase/database"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../firebase"
 
 function Signin() {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const loginState = useSelector(selectLoginState)
     const dispatch = useDispatch()
 
+    const createUser =  () =>{
+
+      createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        console.log("USER IS ",user)
+        const db = getDatabase();
+        
+        set(ref(db, 'users/' + user.uid), {
+          // username: name,
+          email: email,
+          // profile_picture : imageUrl
+        });
+        dispatch(login({ loggedIn: true }));
+        // navigate("/", { replace: true })
+
+
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("ERROR IS ",error.message)
+      });
+
+    }
+    const login = () =>{
+
+      signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        dispatch(login({ loggedIn: true }));
+        // navigate("/", { replace: true })
+        // dispatch(login({ loggedIn: true }));
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+    }
+
+
+
 return (
     <Page>
-      
         <Body style={{backgroundColor: 'var(--slack-color)'}}>
             <ImgContainer>
               <img src="./slackLogo.png"/>
@@ -25,22 +75,17 @@ return (
                 <input type="password" required placeholder="Password" onChange={(text)=>setPassword(text.target.value)} value={password} /><br/>
                 <p>{email}</p>
                 <p>{password}</p>
-                <Link to="/" style={{ textDecoration: "none"}}>
                     <SigninButton 
-                    onClick={()=>{dispatch(login({loggedIn:true}));
-                    console.log("Logged in ->",loginState)
-                    }}>Sign in to Slack-demo</SigninButton></Link>
-                <Link to="/" style={{ textDecoration: "none"}}>
+                    onClick={()=>{
+                      login();
+                    }}>Sign in to Slack-demo</SigninButton>
                     <SignupButton 
-                    onClick={()=>{dispatch(login({loggedIn:true}));
-                    console.log("Logged in ->",loginState)
-                    }}>Create  Account</SignupButton></Link>
+                    onClick={()=>{
+                      createUser();
+                    }}>Create  Account</SignupButton>
             </EnterInfo>
             } 
-           
-
         </Body>
-      
     </Page>
   );
 }

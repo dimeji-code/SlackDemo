@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Split from 'react-split'
-import { useState } from 'react';
+import React from 'react';
 
 import {
   BrowserRouter ,
@@ -12,36 +12,42 @@ import styled from "styled-components"
 import Header from "./components/Header"
 import Profile from "./components/Profile"
 import Help from "./components/Help"
+import Modal from "./components/Modal"
 import MainPage from "./routes/MainPage"
 import Landing from "./routes/Landing"
 import Signin from "./routes/Signin"
-import Mentions from "./routes/Mentions"
 import {useSelector, useDispatch } from 'react-redux';
-import {selectHelpOpen,selectProfileOpen,selectLoginState,login } from "./features/appSlice"
-
+import {selectHelpOpen,selectProfileOpen,selectLoginState,selectModalState } from "./features/appSlice"
 
 function App() {
   const profile = useSelector(selectProfileOpen)
   const help = useSelector(selectHelpOpen)
   const loginState = useSelector(selectLoginState)
+  const modalState = useSelector(selectModalState)
   const dispatch = useDispatch()
 
 console.log("selectProfileOpen is:", profile);
 return (
     <Page>
-      { !loginState && <BrowserRouter> 
+      { !loginState &&
+       <BrowserRouter> 
                  <Routes>
-                 <Route path="/" element={<Landing/>}  />
-                 <Route path="/Signin" element={<Signin/>}  />
+                  <Route path="/" element={<Landing/>}  />
+                  {/* <Route path="/auth" element={<Signin/>}  /> */}
+
                  </Routes>
 
       </BrowserRouter>
-      }
-      { loginState && <BrowserRouter>
+      } 
+      { loginState && 
+      <BrowserRouter>
+      {modalState && <Modal/> }
+
        <Header />
+
         <AppBody>
           <Split  style={{flex:1,flexDirection: "row", display:"flex", width:"100vw" }} sizes={[100,0]}
-            minSize={'80vh'}
+            minSize={0}
             expandToMin={false}
             gutterSize={2}
             gutterAlign="center"
@@ -54,6 +60,7 @@ return (
                 <Route path="/newmessage" element={<MainPage current="newmessage" />}  />
                 <Route path="/mentions" element={<MainPage current="mentions" />}  />
                 <Route path="/connect" element={<MainPage current="connect" />}  />
+                <Route path="/addChannel" element={<MainPage current="addChannel" />}  /> {/* change this name soon */}
               </Routes>
             </MiddleGrid>
             <ProfileGrid style={{
@@ -61,7 +68,8 @@ return (
               maxWidth : (profile | help )?'60vw':'0vw',  
             }}>
               {profile && !help &&
-                <Profile user="First M. Last" email="first.last@gmail.com"/>
+                // <Profile user="First M. Last" email="first.last@gmail.com"/>
+                <Profile />
               }
               {!profile && help &&
                 <Help /> 
@@ -71,7 +79,7 @@ return (
         </AppBody>
 
       </BrowserRouter>
-}
+      }
 
     </Page>
   );

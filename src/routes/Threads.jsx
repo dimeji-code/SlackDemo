@@ -3,9 +3,14 @@ import styled from 'styled-components'
 import MessageIcon  from "@mui/icons-material/Message";
 import SideBar from "../components/SideBar"
 import Split from 'react-split'
+import { useSelector, useDispatch } from 'react-redux';
+import {selectLoginState,login } from "../features/appSlice"
 
 const Threads = () => {
     const [isEmpty, setIsEmpty] = useState(true)
+    var loginState = useSelector(selectLoginState)
+    console.log("threads loginState =>,", loginState);
+
   return (
     <ThreadContainer>
 
