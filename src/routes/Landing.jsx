@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { useDispatch } from 'react-redux';
 import {login, setCurrentUser } from "../features/appSlice"
 import {Link} from "react-router-dom";
-import {  createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {  createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import auth from "../firebase"
 import {getDatabase, ref, set} from "firebase/database"
@@ -28,17 +28,19 @@ function Landing() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        user.displayName = name;
         console.log("USER IS ",user)
         // navigate("/", { replace: true })
-        dispatch(setCurrentUser({currentUser: user}))
         const db = getDatabase();
 
         set(ref(db, 'users/' + user.uid), {
           name: name,
           email: email,
-          // profile_picture : imageUrl
         });
+        updateProfile(auth.currentUser, {
+          displayName: name
+        })
+        dispatch(setCurrentUser({currentUser: user}))
+  
 
       }).then(()=>{ 
           dispatch(login({ loggedIn: true }));
@@ -56,6 +58,8 @@ function Landing() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        console.log("USER IS ",user)
+
         console.log("USER IS ",user.email)
         dispatch(setCurrentUser({currentUser: user}))
         // awaitModal()
